@@ -125,9 +125,9 @@ function esc(str) {
 
 // ─── Date / time helpers ─────────────────────────
 function getDateOptions() {
-  const days    = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  const months  = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  const friends = ['Today','Tomorrow','+2 Days','+3 Days'];
+  const days    = ['Ned','Pon','Uto','Sri','Čet','Pet','Sub'];
+  const months  = ['Sij','Velj','Ožu','Tra','Svi','Lip','Srp','Kol','Ruj','Lis','Stu','Pro'];
+  const friends = ['Danas','Sutra','+2 Dana','+3 Dana'];
   const now = new Date();
   return Array.from({ length: 4 }, (_, i) => {
     const d = new Date(now);
@@ -147,7 +147,7 @@ function generateTimeSlots() {
   const ends   = ['14:00','16:00','18:00','20:00','22:00'];
   const toLabel = t => {
     const [h, m] = t.split(':').map(Number);
-    const period = h < 12 ? 'AM' : 'PM';
+    const period = h < 12 ? 'h' : 'h';
     const h12 = h > 12 ? h - 12 : h === 0 ? 12 : h;
     return `${h12}:${m.toString().padStart(2,'0')} ${period}`;
   };
@@ -156,7 +156,7 @@ function generateTimeSlots() {
 
 function formatBookingDate(iso) {
   const d = new Date(iso + 'T12:00:00');
-  return d.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'short' });
+  return d.toLocaleDateString('hr-HR', { weekday: 'long', day: 'numeric', month: 'short' });
 }
 
 function todayISO() { return new Date().toISOString().slice(0, 10); }
@@ -183,7 +183,7 @@ function updateQueueStatusBar() {
     '<span class="qsb-dot"></span>' +
     '<span class="queue-status-bar-text">' +
       '<span class="queue-status-bar-count">' + waiting + '</span>' +
-      '\u00a0' + (waiting === 1 ? 'party' : 'parties') + ' currently waiting' +
+      '\u00a0' + (waiting === 1 ? 'grupa' : 'grupa') + ' trenutno čeka' +
     '</span>';
 }
 
@@ -290,7 +290,7 @@ function startRejectCountdown() {
       if (currentEntry) removeGuest(currentEntry.id);
       resetGuestForm();
     } else {
-      label.textContent = `auto-removes in ${remaining}s`;
+      label.textContent = `automatski uklanja za ${remaining}s`;
     }
   }, 1000);
 }
@@ -298,10 +298,10 @@ function startRejectCountdown() {
 function showConfirmation(entry, pos) {
   currentEntry = entry;
 
-  document.getElementById('conf-name').textContent  = `You're all set, ${entry.name}!`;
+  document.getElementById('conf-name').textContent  = `Sve je spremno, ${entry.name}!`;
   const partyLabel = entry.kids > 0
-    ? `Party of ${entry.partySize} (${entry.adults} adults, ${entry.kids} kids)`
-    : `Party of ${entry.partySize} ${entry.partySize === 1 ? 'person' : 'people'}`;
+    ? `Grupa od ${entry.partySize} (${entry.adults} odraslih, ${entry.kids} djece)`
+    : `Grupa od ${entry.partySize} ${entry.partySize === 1 ? 'osoba' : 'osoba'}`;
   document.getElementById('conf-party').textContent = partyLabel;
   document.getElementById('conf-pos').textContent = pos;
 
@@ -318,7 +318,7 @@ function showConfirmation(entry, pos) {
   ];
   const provided = contacts.filter(c => c.val);
   if (provided.length === 0) {
-    contactsEl.innerHTML = `<div class="conf-info-row"><span class="conf-info-muted">No contact info provided — please wait nearby.</span></div>`;
+    contactsEl.innerHTML = `<div class="conf-info-row"><span class="conf-info-muted">Niste ostavili kontakt — molimo pričekajte u blizini.</span></div>`;
   } else {
     provided.forEach(c => {
       contactsEl.innerHTML += `
@@ -330,15 +330,15 @@ function showConfirmation(entry, pos) {
   }
 
   const msgs = [
-    `Grab a drink and enjoy the view — we'll come find you the moment your table is ready.`,
-    `Your table for ${entry.partySize} is almost yours. Feel free to relax — we'll reach out shortly.`,
-    `Sit back and take it easy. We'll contact you as soon as your table opens up.`,
+    `Popijte piće i uživajte u pogledu — doći ćemo po vas čim vaš stol bude spreman.`,
+    `Vaš stol za ${entry.partySize} je skoro spreman. Opustite se — javit ćemo vam uskoro.`,
+    `Opustite se i uživajte. Kontaktirat ćemo vas čim se stol oslobodi.`,
   ];
   document.getElementById('conf-msg').textContent = msgs[pos % msgs.length];
 
   document.getElementById('form-screen').classList.add('hidden');
   document.getElementById('confirm-screen').classList.add('active');
-  document.getElementById('reject-countdown').textContent = 'auto-removes in 20s';
+  document.getElementById('reject-countdown').textContent = 'automatski uklanja za 20s';
   clearRejectCountdown();
   startRejectCountdown();
 }
@@ -390,15 +390,15 @@ function switchMode(mode) {
     bookingForm.classList.add('hidden-init');
     confirmScreen.classList.remove('active');
     bookingConfirm.classList.add('hidden-init');
-    h1.textContent = 'Join the Waitlist';
-    p.innerHTML = 'Sit back &amp; enjoy &mdash; we&rsquo;ll find you when your table is ready';
+    h1.textContent = 'Lista čekanja';
+    p.innerHTML = 'Opustite se &mdash; javit ćemo vam kad vaš stol bude spreman';
   } else {
     bookingForm.classList.remove('hidden-init');
     formScreen.classList.add('hidden');
     confirmScreen.classList.remove('active');
     bookingConfirm.classList.add('hidden-init');
-    h1.textContent = 'Book a Table';
-    p.innerHTML = 'Reserve your spot for today or the next 3 days';
+    h1.textContent = 'Rezerviraj stol';
+    p.innerHTML = 'Rezervirajte mjesto za danas ili sljedeća 3 dana';
   }
 }
 
@@ -527,10 +527,10 @@ async function validateAndSubmitBooking() {
 
 function showBookingConfirmation(entry) {
   currentBooking = entry;
-  document.getElementById('bc-name').textContent  = `You're all set, ${entry.name}!`;
+  document.getElementById('bc-name').textContent  = `Sve je spremno, ${entry.name}!`;
   const bPartyLabel = entry.kids > 0
-    ? `Party of ${entry.partySize} (${entry.adults} adults, ${entry.kids} kids)`
-    : `Party of ${entry.partySize} ${entry.partySize === 1 ? 'person' : 'people'}`;
+    ? `Grupa od ${entry.partySize} (${entry.adults} odraslih, ${entry.kids} djece)`
+    : `Grupa od ${entry.partySize} ${entry.partySize === 1 ? 'osoba' : 'osoba'}`;
   document.getElementById('bc-party').textContent = bPartyLabel;
   document.getElementById('bc-date').textContent  = formatBookingDate(entry.date);
   document.getElementById('bc-time').textContent  = entry.timeLabel || entry.time;
@@ -550,11 +550,11 @@ function showBookingConfirmation(entry) {
     });
 
   document.getElementById('bc-msg').textContent =
-    'Your reservation is confirmed. We look forward to seeing you — enjoy your time until then.';
+    'Vaša rezervacija je potvrđena. Veselimo se vašem dolasku — uživajte do tada.';
 
   document.getElementById('booking-form-screen').classList.add('hidden-init');
   document.getElementById('booking-confirm-screen').classList.remove('hidden-init');
-  document.getElementById('b-reject-countdown').textContent = 'auto-cancels in 20s';
+  document.getElementById('b-reject-countdown').textContent = 'automatski otkazuje za 20s';
   clearBookingCountdown();
   startBookingRejectCountdown();
 }
@@ -578,7 +578,7 @@ function startBookingRejectCountdown() {
       if (currentBooking) removeBooking(currentBooking.id);
       resetBookingForm();
     } else {
-      label.textContent = `auto-cancels in ${remaining}s`;
+      label.textContent = `automatski otkazuje za ${remaining}s`;
     }
   }, 1000);
 }
@@ -624,19 +624,19 @@ let sortBySize     = false;
 function startClock() {
   clearInterval(clockInterval);
   const el = document.getElementById('live-clock');
-  const tick = () => el.textContent = new Date().toLocaleTimeString('en-US', { hour12: false });
+  const tick = () => el.textContent = new Date().toLocaleTimeString('hr-HR', { hour12: false });
   tick();
   clockInterval = setInterval(tick, 1000);
 }
 function stopClock() { clearInterval(clockInterval); }
 
 function statusLabel(s) {
-  return s === 'waiting' ? '● Waiting' : s === 'notified' ? '◎ Notified' : '✓ Seated';
+  return s === 'waiting' ? '● Čeka' : s === 'notified' ? '◎ Obaviješten' : '✓ Sjeo';
 }
 
 function partyChipText(entry) {
   const total = entry.partySize || ((entry.adults || 0) + (entry.kids || 0));
-  if (entry.kids > 0) return `👥 ${total} (${entry.adults}A + ${entry.kids}K)`;
+  if (entry.kids > 0) return `👥 ${total} (${entry.adults}O + ${entry.kids}D)`;
   return `👥 ${total}`;
 }
 
@@ -667,8 +667,8 @@ function renderAdmin() {
     activeList.innerHTML = `
       <div class="empty-state">
         <div class="es-icon">🌊</div>
-        <div class="es-title">No guests in queue</div>
-        <div class="es-sub">New sign-ups will appear here automatically</div>
+        <div class="es-title">Nema gostiju u redu</div>
+        <div class="es-sub">Novi gosti će se automatski pojaviti ovdje</div>
       </div>`;
   } else {
     active.forEach(entry => {
@@ -687,17 +687,17 @@ function renderAdmin() {
           </div>
           <div class="card-meta">${buildContactHtml(entry)}</div>
           <div class="time-meta">
-            <div class="time-item"><span>Added</span>${formatTime(entry.timestamp)}</div>
-            <div class="time-item"><span>Ago</span>${ago}m</div>
-            ${wait !== null ? `<div class="time-item"><span>Wait</span>~${wait}m</div>` : ''}
+            <div class="time-item"><span>Dodano</span>${formatTime(entry.timestamp)}</div>
+            <div class="time-item"><span>Prije</span>${ago}m</div>
+            ${wait !== null ? `<div class="time-item"><span>Čekanje</span>~${wait}m</div>` : ''}
           </div>
         </div>
         <div class="card-actions">
           ${entry.status === 'waiting'
-            ? `<button class="action-btn btn-notify" data-action="notify" data-id="${entry.id}">Notify</button>` : ''}
+            ? `<button class="action-btn btn-notify" data-action="notify" data-id="${entry.id}">Obavijesti</button>` : ''}
           ${entry.status !== 'seated'
-            ? `<button class="action-btn btn-seat" data-action="seat" data-id="${entry.id}">Seat</button>` : ''}
-          <button class="action-btn btn-remove" data-action="remove" data-id="${entry.id}">Remove</button>
+            ? `<button class="action-btn btn-seat" data-action="seat" data-id="${entry.id}">Sjedi</button>` : ''}
+          <button class="action-btn btn-remove" data-action="remove" data-id="${entry.id}">Ukloni</button>
         </div>`;
       activeList.appendChild(card);
     });
@@ -710,7 +710,7 @@ function renderAdmin() {
 
   if (seated.length > 0) {
     seatedSection.classList.remove('hidden-init');
-    seatedTitle.textContent = `Seated (${seated.length})`;
+    seatedTitle.textContent = `Sjeli (${seated.length})`;
     seatedList.innerHTML = '';
     if (seatedOpen) {
       seated.forEach(entry => {
@@ -726,12 +726,12 @@ function renderAdmin() {
             </div>
             <div class="card-meta">${buildContactHtml(entry)}</div>
             <div class="time-meta">
-              <div class="time-item"><span>Added</span>${formatTime(entry.timestamp)}</div>
-              <div class="time-item"><span>Ago</span>${minutesAgo(entry.timestamp)}m</div>
+              <div class="time-item"><span>Dodano</span>${formatTime(entry.timestamp)}</div>
+              <div class="time-item"><span>Prije</span>${minutesAgo(entry.timestamp)}m</div>
             </div>
           </div>
           <div class="card-actions">
-            <button class="action-btn btn-remove" data-action="remove" data-id="${entry.id}">Remove</button>
+            <button class="action-btn btn-remove" data-action="remove" data-id="${entry.id}">Ukloni</button>
           </div>`;
         seatedList.appendChild(card);
       });
@@ -747,10 +747,10 @@ function renderAdmin() {
 let pastBookingsOpen = false;
 
 function bookingStatusLabel(s) {
-  if (s === 'pending')    return '◌ Pending';
-  if (s === 'bconfirmed') return '● Confirmed';
-  if (s === 'cancelled')  return '✕ Cancelled';
-  if (s === 'completed')  return '✓ Completed';
+  if (s === 'pending')    return '◌ Na čekanju';
+  if (s === 'bconfirmed') return '● Potvrđeno';
+  if (s === 'cancelled')  return '✕ Otkazano';
+  if (s === 'completed')  return '✓ Završeno';
   return s;
 }
 
@@ -760,13 +760,13 @@ function buildBookingCardHtml(entry) {
   const timeLabel = entry.timeLabel || entry.time;
   let actions = '';
   if (entry.status === 'pending') {
-    actions += `<button class="action-btn btn-bconfirm"  data-action="bconfirm"  data-id="${entry.id}">Confirm</button>`;
-    actions += `<button class="action-btn btn-bcancel"   data-action="bcancel"   data-id="${entry.id}">Cancel</button>`;
+    actions += `<button class="action-btn btn-bconfirm"  data-action="bconfirm"  data-id="${entry.id}">Potvrdi</button>`;
+    actions += `<button class="action-btn btn-bcancel"   data-action="bcancel"   data-id="${entry.id}">Otkaži</button>`;
   } else if (entry.status === 'bconfirmed') {
-    actions += `<button class="action-btn btn-bcomplete" data-action="bcomplete" data-id="${entry.id}">Complete</button>`;
-    actions += `<button class="action-btn btn-bcancel"   data-action="bcancel"   data-id="${entry.id}">Cancel</button>`;
+    actions += `<button class="action-btn btn-bcomplete" data-action="bcomplete" data-id="${entry.id}">Završi</button>`;
+    actions += `<button class="action-btn btn-bcancel"   data-action="bcancel"   data-id="${entry.id}">Otkaži</button>`;
   } else {
-    actions += `<button class="action-btn btn-remove"    data-action="bremove"   data-id="${entry.id}">Remove</button>`;
+    actions += `<button class="action-btn btn-remove"    data-action="bremove"   data-id="${entry.id}">Ukloni</button>`;
   }
   return `
     <div class="card-num booking-num">${svgCal}</div>
@@ -780,8 +780,8 @@ function buildBookingCardHtml(entry) {
       <div class="card-meta">${buildContactHtml(entry)}</div>
       ${entry.notes ? `<div class="card-meta"><div class="contact-item"><span class="ci-icon">✍️</span>${esc(entry.notes)}</div></div>` : ''}
       <div class="time-meta">
-        <div class="time-item"><span>Added</span>${formatTime(entry.timestamp)}</div>
-        <div class="time-item"><span>Ago</span>${ago}m</div>
+        <div class="time-item"><span>Dodano</span>${formatTime(entry.timestamp)}</div>
+        <div class="time-item"><span>Prije</span>${ago}m</div>
       </div>
     </div>
     <div class="card-actions">${actions}</div>`;
@@ -813,8 +813,8 @@ function renderBookingsPanel() {
     });
   }
 
-  renderList('today-bookings-list', todayActive, 'No active bookings for today');
-  renderList('upcoming-bookings-list', upcoming, 'No upcoming bookings');
+  renderList('today-bookings-list', todayActive, 'Nema aktivnih rezervacija za danas');
+  renderList('upcoming-bookings-list', upcoming, 'Nema nadolazećih rezervacija');
 
   const pastSection = document.getElementById('past-bookings-section');
   const pastList    = document.getElementById('past-bookings-list');
@@ -822,7 +822,7 @@ function renderBookingsPanel() {
   const pastIcon    = document.getElementById('past-bookings-icon');
   if (past.length > 0) {
     pastSection.classList.remove('hidden-init');
-    pastTitle.textContent = `Completed / Cancelled (${past.length})`;
+    pastTitle.textContent = `Završene / Otkazane (${past.length})`;
     pastList.innerHTML = '';
     if (pastBookingsOpen) {
       past.forEach(entry => {
@@ -858,7 +858,7 @@ function initAdminView() {
 
   document.getElementById('sort-toggle').addEventListener('click', () => {
     sortBySize = !sortBySize;
-    document.getElementById('sort-toggle').textContent = sortBySize ? 'Sort: Size ↓' : 'Sort: Time ↓';
+    document.getElementById('sort-toggle').textContent = sortBySize ? 'Sort: Veličina ↓' : 'Sort: Vrijeme ↓';
     renderAdmin();
   });
   document.getElementById('seated-toggle').addEventListener('click', () => {

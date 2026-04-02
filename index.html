@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kapetanova Kuća — Waitlist</title>
+  <title>Kapetanova Kuća — Lista čekanja</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -26,8 +26,8 @@
         <div class="header-ornament-diamond"></div>
         <div class="header-ornament-line"></div>
       </div>
-      <h1>Join the Waitlist</h1>
-      <p>Sit back &amp; enjoy &mdash; we&rsquo;ll find you when your table is ready</p>
+      <h1>Lista čekanja</h1>
+      <p>Opustite se &mdash; javit ćemo vam kad vaš stol bude spreman</p>
       <div id="queue-status-bar" class="queue-status-bar hidden"></div>
     </div>
 
@@ -38,8 +38,8 @@
           <circle cx="12" cy="12" r="10"/>
           <polyline points="12 6 12 12 16 14"/>
         </svg>
-        <span class="mode-btn-title">Join Waitlist</span>
-        <span class="mode-btn-sub">Walk-in &middot; No reservation needed</span>
+        <span class="mode-btn-title">Lista čekanja</span>
+        <span class="mode-btn-sub">Bez rezervacije &middot; Dolazak uživo</span>
       </button>
       <button class="mode-btn" id="tab-booking" data-mode="booking" type="button">
         <svg class="mode-btn-icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -48,8 +48,8 @@
           <line x1="8" y1="2" x2="8" y2="6"/>
           <line x1="3" y1="10" x2="21" y2="10"/>
         </svg>
-        <span class="mode-btn-title">Book a Table</span>
-        <span class="mode-btn-sub">Reserve for today or the next 3 days</span>
+        <span class="mode-btn-title">Rezerviraj stol</span>
+        <span class="mode-btn-sub">Rezervacija za danas ili sljedeća 3 dana</span>
       </button>
     </div>
 
@@ -62,22 +62,22 @@
           <!-- LEFT: Name + Party Size + note -->
           <div class="form-col form-col-left">
             <div class="form-group">
-              <label><span class="label-icon">👤</span> Name <span class="required-dot">*</span></label>
+              <label><span class="label-icon">👤</span> Ime <span class="required-dot">*</span></label>
               <div class="input-wrap">
-                <input id="g-name" class="form-input form-input-icon" type="text" placeholder="Your full name" autocomplete="name" />
+                <input id="g-name" class="form-input form-input-icon" type="text" placeholder="Vaše ime i prezime" autocomplete="name" />
                 <span class="input-prefix input-prefix-std">✏️</span>
               </div>
-              <div id="err-name" class="error-msg">Please enter your name to continue.</div>
+              <div id="err-name" class="error-msg">Molimo unesite vaše ime.</div>
             </div>
 
             <div class="form-group">
               <div class="stepper-label-row">
-                <label class="label-inline"><span class="label-icon">👥</span> Party Size <span class="required-dot">*</span></label>
+                <label class="label-inline"><span class="label-icon">👥</span> Broj gostiju <span class="required-dot">*</span></label>
               </div>
               <div class="party-split">
                 <div class="split-steppers">
                   <div class="split-row">
-                    <span class="split-label">Adults</span>
+                    <span class="split-label">Odrasli</span>
                     <div class="stepper stepper-mini">
                       <button class="stepper-btn" id="party-adults-dec" type="button">−</button>
                       <div class="stepper-value" id="party-adults-val">2</div>
@@ -85,7 +85,7 @@
                     </div>
                   </div>
                   <div class="split-row">
-                    <span class="split-label">Kids</span>
+                    <span class="split-label">Djeca</span>
                     <div class="stepper stepper-mini">
                       <button class="stepper-btn" id="party-kids-dec" type="button">−</button>
                       <div class="stepper-value" id="party-kids-val">0</div>
@@ -93,20 +93,20 @@
                     </div>
                   </div>
                 </div>
-                <div class="split-total">Total: <strong id="party-total">2</strong> guests</div>
+                <div class="split-total">Ukupno: <strong id="party-total">2</strong> gostiju</div>
               </div>
             </div>
 
             <div class="contact-note contact-note-bottom">
               <span class="note-icon">💬</span>
-              <span>We'll contact you when your table is almost ready.</span>
+              <span>Javit ćemo vam kad vaš stol bude spreman.</span>
             </div>
           </div>
 
           <!-- RIGHT: Contact info + submit -->
           <div class="form-col form-col-right">
             <div class="form-group">
-              <label><span class="label-icon">📞</span> Phone <span class="optional-label">(optional)</span></label>
+              <label><span class="label-icon">📞</span> Telefon <span class="optional-label">(opcionalno)</span></label>
               <div class="input-wrap">
                 <input id="g-phone" class="form-input form-input-icon" type="tel" placeholder="+385 xx xxx xxxx" autocomplete="tel" />
                 <span class="input-prefix input-prefix-std">📞</span>
@@ -114,7 +114,7 @@
             </div>
 
             <div class="form-group">
-              <label><span class="label-icon">💬</span> WhatsApp <span class="optional-label">(optional)</span></label>
+              <label><span class="label-icon">💬</span> WhatsApp <span class="optional-label">(opcionalno)</span></label>
               <div class="input-wrap">
                 <input id="g-whatsapp" class="form-input form-input-icon" type="tel" placeholder="+385 xx xxx xxxx" />
                 <span class="input-prefix input-prefix-std">💬</span>
@@ -122,14 +122,14 @@
             </div>
 
             <div class="form-group">
-              <label><span class="label-icon">✉️</span> Email <span class="optional-label">(optional)</span></label>
+              <label><span class="label-icon">✉️</span> Email <span class="optional-label">(opcionalno)</span></label>
               <div class="input-wrap">
                 <input id="g-email" class="form-input form-input-icon" type="email" placeholder="you@example.com" autocomplete="email" />
                 <span class="input-prefix input-prefix-std">✉️</span>
               </div>
             </div>
 
-            <button class="submit-btn" id="submit-btn" type="button">Join the Waitlist →</button>
+            <button class="submit-btn" id="submit-btn" type="button">Pridruži se listi →</button>
           </div>
 
         </div><!-- /form-cols -->
@@ -152,23 +152,23 @@
           <div class="conf-pos-pill" id="conf-pos-pill">
             <span class="conf-pos-hash">#</span>
             <span class="conf-pos-num" id="conf-pos"></span>
-            <span class="conf-pos-label">in queue</span>
+            <span class="conf-pos-label">u redu</span>
           </div>
         </div>
 
         <div class="conf-info-block" id="conf-info-block">
-          <div class="conf-info-title">We'll reach out at</div>
+          <div class="conf-info-title">Kontaktirat ćemo vas na</div>
           <div id="conf-contacts"></div>
         </div>
 
         <div class="conf-message" id="conf-msg"></div>
 
         <div class="conf-actions">
-          <button class="accept-btn" id="accept-btn" type="button">Confirm my spot</button>
+          <button class="accept-btn" id="accept-btn" type="button">Potvrdi moje mjesto</button>
           <button class="reject-btn counting" id="reject-btn" type="button">
             <div class="reject-btn-inner">
-              <span>Leave the queue</span>
-              <span class="reject-countdown" id="reject-countdown">auto-rejects in 20s</span>
+              <span>Napusti red</span>
+              <span class="reject-countdown" id="reject-countdown">automatski uklanja za 20s</span>
             </div>
           </button>
         </div>
@@ -181,22 +181,22 @@
           <!-- LEFT: Name + Party + Date + Time -->
           <div class="form-col form-col-left">
             <div class="form-group">
-              <label><span class="label-icon">👤</span> Name <span class="required-dot">*</span></label>
+              <label><span class="label-icon">👤</span> Ime <span class="required-dot">*</span></label>
               <div class="input-wrap">
-                <input id="b-name" class="form-input form-input-icon" type="text" placeholder="Your full name" autocomplete="name" />
+                <input id="b-name" class="form-input form-input-icon" type="text" placeholder="Vaše ime i prezime" autocomplete="name" />
                 <span class="input-prefix input-prefix-std">✏️</span>
               </div>
-              <div id="err-b-name" class="error-msg">Please enter your name to continue.</div>
+              <div id="err-b-name" class="error-msg">Molimo unesite vaše ime.</div>
             </div>
 
             <div class="form-group">
               <div class="stepper-label-row">
-                <label class="label-inline"><span class="label-icon">👥</span> Party Size <span class="required-dot">*</span></label>
+                <label class="label-inline"><span class="label-icon">👥</span> Broj gostiju <span class="required-dot">*</span></label>
               </div>
               <div class="party-split">
                 <div class="split-steppers">
                   <div class="split-row">
-                    <span class="split-label">Adults</span>
+                    <span class="split-label">Odrasli</span>
                     <div class="stepper stepper-mini">
                       <button class="stepper-btn" id="b-party-adults-dec" type="button">−</button>
                       <div class="stepper-value" id="b-party-adults-val">2</div>
@@ -204,7 +204,7 @@
                     </div>
                   </div>
                   <div class="split-row">
-                    <span class="split-label">Kids</span>
+                    <span class="split-label">Djeca</span>
                     <div class="stepper stepper-mini">
                       <button class="stepper-btn" id="b-party-kids-dec" type="button">−</button>
                       <div class="stepper-value" id="b-party-kids-val">0</div>
@@ -212,27 +212,27 @@
                     </div>
                   </div>
                 </div>
-                <div class="split-total">Total: <strong id="b-party-total">2</strong> guests</div>
+                <div class="split-total">Ukupno: <strong id="b-party-total">2</strong> gostiju</div>
               </div>
             </div>
 
             <div class="form-group">
-              <label><span class="label-icon">📅</span> Date <span class="required-dot">*</span></label>
+              <label><span class="label-icon">📅</span> Datum <span class="required-dot">*</span></label>
               <div class="date-pills" id="b-date-pills"></div>
-              <div id="err-b-date" class="error-msg">Please select a date.</div>
+              <div id="err-b-date" class="error-msg">Molimo odaberite datum.</div>
             </div>
 
             <div class="form-group">
-              <label><span class="label-icon">🕐</span> Time Slot <span class="required-dot">*</span></label>
+              <label><span class="label-icon">🕐</span> Termin <span class="required-dot">*</span></label>
               <div class="time-slots" id="b-time-slots"></div>
-              <div id="err-b-time" class="error-msg">Please select a time slot.</div>
+              <div id="err-b-time" class="error-msg">Molimo odaberite termin.</div>
             </div>
           </div>
 
           <!-- RIGHT: Contact + Notes + Submit -->
           <div class="form-col form-col-right">
             <div class="form-group">
-              <label><span class="label-icon">📞</span> Phone <span class="optional-label">(optional)</span></label>
+              <label><span class="label-icon">📞</span> Telefon <span class="optional-label">(opcionalno)</span></label>
               <div class="input-wrap">
                 <input id="b-phone" class="form-input form-input-icon" type="tel" placeholder="+385 xx xxx xxxx" autocomplete="tel" />
                 <span class="input-prefix input-prefix-std">📞</span>
@@ -240,7 +240,7 @@
             </div>
 
             <div class="form-group">
-              <label><span class="label-icon">💬</span> WhatsApp <span class="optional-label">(optional)</span></label>
+              <label><span class="label-icon">💬</span> WhatsApp <span class="optional-label">(opcionalno)</span></label>
               <div class="input-wrap">
                 <input id="b-whatsapp" class="form-input form-input-icon" type="tel" placeholder="+385 xx xxx xxxx" />
                 <span class="input-prefix input-prefix-std">💬</span>
@@ -248,7 +248,7 @@
             </div>
 
             <div class="form-group">
-              <label><span class="label-icon">✉️</span> Email <span class="optional-label">(optional)</span></label>
+              <label><span class="label-icon">✉️</span> Email <span class="optional-label">(opcionalno)</span></label>
               <div class="input-wrap">
                 <input id="b-email" class="form-input form-input-icon" type="email" placeholder="you@example.com" autocomplete="email" />
                 <span class="input-prefix input-prefix-std">✉️</span>
@@ -256,12 +256,12 @@
             </div>
 
             <div class="form-group">
-              <label><span class="label-icon">✍️</span> Special Requests <span class="optional-label">(optional)</span></label>
-              <textarea id="b-notes" class="form-input form-textarea" rows="2" placeholder="Allergies, celebrations, seating preferences…"></textarea>
+              <label><span class="label-icon">✍️</span> Posebni zahtjevi <span class="optional-label">(opcionalno)</span></label>
+              <textarea id="b-notes" class="form-input form-textarea" rows="2" placeholder="Alergije, proslave, preferencije sjedenja…"></textarea>
             </div>
 
-            <div id="err-b-contact" class="error-msg">Please provide at least one contact method.</div>
-            <button class="submit-btn" id="b-submit-btn" type="button">Book a Table →</button>
+            <div id="err-b-contact" class="error-msg">Molimo unesite barem jedan kontakt.</div>
+            <button class="submit-btn" id="b-submit-btn" type="button">Rezerviraj stol →</button>
           </div>
 
         </div><!-- /form-cols -->
@@ -292,18 +292,18 @@
         </div>
 
         <div class="conf-info-block">
-          <div class="conf-info-title">We'll reach out at</div>
+          <div class="conf-info-title">Kontaktirat ćemo vas na</div>
           <div id="bc-contacts"></div>
         </div>
 
         <div class="conf-message" id="bc-msg"></div>
 
         <div class="conf-actions">
-          <button class="accept-btn" id="b-accept-btn" type="button">Confirm Booking</button>
+          <button class="accept-btn" id="b-accept-btn" type="button">Potvrdi rezervaciju</button>
           <button class="reject-btn counting" id="b-reject-btn" type="button">
             <div class="reject-btn-inner">
-              <span>Cancel this Booking</span>
-              <span class="reject-countdown" id="b-reject-countdown">auto-cancels in 20s</span>
+              <span>Otkaži rezervaciju</span>
+              <span class="reject-countdown" id="b-reject-countdown">automatski otkazuje za 20s</span>
             </div>
           </button>
         </div>
@@ -311,7 +311,7 @@
 
     </div><!-- /guest-card -->
 
-    <a href="#admin" class="staff-btn">Staff</a>
+    <a href="#admin" class="staff-btn">Osoblje</a>
   </div>
 
   <!-- ══════════════════════════════════════════════
@@ -321,21 +321,21 @@
     <header class="admin-header">
       <div class="admin-header-left">
         <img src="Kapetan Logo.png?v=4" alt="Kapetanova Kuća" class="admin-logo-img" />
-        <div class="admin-subtitle">Admin Dashboard</div>
+        <div class="admin-subtitle">Upravljačka ploča</div>
       </div>
       <div class="admin-header-center">
         <div class="waiting-badge">
           <span class="badge-count" id="admin-count">0</span>
-          <span class="badge-label">Waiting</span>
+          <span class="badge-label">Čekaju</span>
         </div>
         <div class="waiting-badge">
           <span class="badge-count" id="admin-booking-count">0</span>
-          <span class="badge-label">Bookings</span>
+          <span class="badge-label">Rezervacije</span>
         </div>
       </div>
       <div class="admin-header-right">
         <div class="live-clock" id="live-clock">--:--:--</div>
-        <a href="#guest" class="guest-link">← Guest</a>
+        <a href="#guest" class="guest-link">← Gost</a>
       </div>
     </header>
 
@@ -343,11 +343,11 @@
 
       <div class="admin-section-tabs">
         <button class="admin-tab active" id="atab-waitlist" data-atab="waitlist" type="button">
-          Waitlist
+          Čekaonica
           <span class="admin-tab-count" id="atab-waitlist-count">0</span>
         </button>
         <button class="admin-tab" id="atab-bookings" data-atab="bookings" type="button">
-          Bookings
+          Rezervacije
           <span class="admin-tab-count" id="atab-bookings-count">0</span>
         </button>
       </div>
@@ -355,8 +355,8 @@
       <!-- ── WAITLIST PANEL ─────────────────────── -->
       <div id="admin-waitlist-panel">
         <div class="section-bar">
-          <div class="section-tag">Active Queue</div>
-          <button class="sort-toggle-btn" id="sort-toggle" type="button">Sort: Time ↓</button>
+          <div class="section-tag">Aktivni red</div>
+          <button class="sort-toggle-btn" id="sort-toggle" type="button">Sort: Vrijeme ↓</button>
         </div>
         <div id="active-list"></div>
 
@@ -364,9 +364,9 @@
           <div class="section-bar">
             <div class="seated-toggle" id="seated-toggle">
               <span class="seated-chevron" id="seated-icon">▶</span>
-              <div class="section-tag section-tag-nogap" id="seated-title">Seated</div>
+              <div class="section-tag section-tag-nogap" id="seated-title">Sjeli</div>
             </div>
-            <button class="clear-seated-btn" id="clear-seated-btn" type="button">✕ Clear All Seated</button>
+            <button class="clear-seated-btn" id="clear-seated-btn" type="button">✕ Obriši sve</button>
           </div>
           <div class="seated-list" id="seated-list"></div>
         </div>
@@ -375,12 +375,12 @@
       <!-- ── BOOKINGS PANEL ─────────────────────── -->
       <div id="admin-bookings-panel" class="hidden-init">
         <div class="section-bar">
-          <div class="section-tag">Today's Bookings</div>
+          <div class="section-tag">Današnje rezervacije</div>
         </div>
         <div id="today-bookings-list"></div>
 
         <div class="section-bar section-bar-upcoming" id="upcoming-section-bar">
-          <div class="section-tag">Upcoming</div>
+          <div class="section-tag">Nadolazeće</div>
         </div>
         <div id="upcoming-bookings-list"></div>
 
@@ -388,9 +388,9 @@
           <div class="section-bar">
             <div class="seated-toggle" id="past-bookings-toggle">
               <span class="seated-chevron" id="past-bookings-icon">▶</span>
-              <div class="section-tag section-tag-nogap" id="past-bookings-title">Completed / Cancelled</div>
+              <div class="section-tag section-tag-nogap" id="past-bookings-title">Završene / Otkazane</div>
             </div>
-            <button class="clear-seated-btn" id="clear-past-btn" type="button">✕ Clear All</button>
+            <button class="clear-seated-btn" id="clear-past-btn" type="button">✕ Obriši sve</button>
           </div>
           <div class="seated-list" id="past-bookings-list"></div>
         </div>
@@ -405,8 +405,8 @@
   <div id="pin-overlay">
     <div class="pin-card">
       <img src="Kapetan Logo.png?v=4" alt="Kapetanova Kuća" />
-      <div class="pin-title">Staff Access</div>
-      <div class="pin-sub">Enter your PIN to continue</div>
+      <div class="pin-title">Pristup za osoblje</div>
+      <div class="pin-sub">Unesite PIN za nastavak</div>
       <div class="pin-inputs" id="pin-inputs">
         <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" autocomplete="off" />
         <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" autocomplete="off" />
@@ -415,8 +415,8 @@
         <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" autocomplete="off" />
         <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" autocomplete="off" />
       </div>
-      <div id="pin-error" class="pin-error">Incorrect PIN. Please try again.</div>
-      <button class="pin-submit" id="pin-submit" type="button">Unlock →</button>
+      <div id="pin-error" class="pin-error">Pogrešan PIN. Pokušajte ponovo.</div>
+      <button class="pin-submit" id="pin-submit" type="button">Otključaj →</button>
     </div>
   </div>
 

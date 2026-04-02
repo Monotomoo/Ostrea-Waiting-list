@@ -1278,12 +1278,89 @@ html, body {
   .date-pills { flex-wrap: wrap; }
   .date-pill { min-width: 70px; flex: none; }
 }
-@media (max-width: 520px) {
+/* ── Tablet: Galaxy Tab A7 & similar ───────────── */
+@media (max-width: 1024px) {
+  .admin-body { max-width: 100%; padding: 24px 20px; }
+  .action-btn { padding: 8px 14px; font-size: 12px; }
+  .sort-toggle-btn { padding: 6px 14px; font-size: 12px; }
+  .clear-seated-btn { padding: 6px 14px; }
+}
+
+/* ── Large phones / small tablets ─────────────── */
+@media (max-width: 768px) {
   .admin-header { padding: 0 16px; height: 62px; }
+  .admin-logo-img { height: 32px; }
+  .admin-subtitle { display: none; }
   .admin-header-center { display: none; }
-  .admin-body { padding: 16px; }
+
+  .admin-section-tabs { padding: 0; }
+  .admin-tab { padding: 14px 16px; font-size: 14px; }
+  .admin-tab-count { font-size: 12px; padding: 2px 9px; }
+
   .queue-card { grid-template-columns: 44px 1fr; }
-  .card-actions { flex-direction: row; flex-wrap: wrap; grid-column: 1 / -1; margin-top: 10px; }
+  .card-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    grid-column: 1 / -1;
+    margin-top: 10px;
+    gap: 8px;
+  }
+  .action-btn { padding: 9px 16px; font-size: 12px; min-height: 40px; min-width: 80px; }
+
+  .time-meta { gap: 10px; }
+  .contact-item { font-size: 13px; }
+}
+
+/* ── Phones portrait ──────────────────────────── */
+@media (max-width: 520px) {
+  .admin-header { padding: 0 12px; height: 56px; }
+  .admin-header-left { gap: 10px; }
+  .admin-logo-img { height: 28px; }
+  .admin-subtitle { display: none; }
+  .admin-header-center { display: none; }
+  .live-clock { font-size: 12px; padding: 5px 10px; }
+  .guest-link { padding: 5px 10px; font-size: 10px; }
+
+  .admin-body { padding: 14px 12px; }
+
+  .admin-section-tabs { padding: 0; margin-bottom: 18px; }
+  .admin-tab { flex: 1; justify-content: center; padding: 14px 10px; font-size: 13px; min-height: 48px; }
+  .admin-tab-count { font-size: 12px; }
+
+  .section-bar { flex-wrap: wrap; gap: 8px; }
+  .sort-toggle-btn { padding: 8px 14px; font-size: 12px; min-height: 36px; }
+  .clear-seated-btn { padding: 8px 14px; font-size: 12px; min-height: 36px; }
+
+  .queue-card { grid-template-columns: 1fr; padding: 14px; }
+  .card-num { display: none; }
+  .card-body { min-width: 0; }
+  .card-top { flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .card-name { font-size: 15px; }
+  .party-chip { font-size: 12px; }
+  .status-badge { font-size: 11px; }
+  .contact-item { font-size: 13px; }
+  .time-meta { gap: 10px; margin-top: 8px; }
+  .time-item { font-size: 12px; }
+  .time-item span { font-size: 11px; }
+
+  .card-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    grid-column: 1 / -1;
+    margin-top: 12px;
+    gap: 8px;
+  }
+  .action-btn {
+    flex: 1;
+    min-height: 44px;
+    font-size: 13px;
+    padding: 10px 8px;
+    min-width: 0;
+    border-radius: 10px;
+  }
+
+  .booking-datetime-chip { font-size: 12px; }
+  .empty-state { padding: 40px 16px; }
 }
 
 /* ════════════════════════════════════════════════════
