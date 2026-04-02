@@ -390,7 +390,7 @@ function switchMode(mode) {
     bookingForm.classList.add('hidden-init');
     confirmScreen.classList.remove('active');
     bookingConfirm.classList.add('hidden-init');
-    h1.textContent = 'Lista čekanja';
+    h1.textContent = 'Popis čekanja';
     p.innerHTML = 'Opustite se &mdash; javit ćemo vam kad vaš stol bude spreman';
   } else {
     bookingForm.classList.remove('hidden-init');
@@ -650,7 +650,7 @@ function buildContactHtml(entry) {
 
 function renderAdmin() {
   const active  = queue.filter(e => e.status !== 'seated').sort(sortBySize
-    ? (a, b) => b.partySize - a.partySize
+    ? (a, b) => a.partySize - b.partySize || a.timestamp - b.timestamp
     : (a, b) => a.timestamp - b.timestamp);
   const seated  = queue.filter(e => e.status === 'seated').sort((a,b) => a.timestamp - b.timestamp);
   const waiting = queue.filter(e => e.status === 'waiting');
@@ -858,7 +858,7 @@ function initAdminView() {
 
   document.getElementById('sort-toggle').addEventListener('click', () => {
     sortBySize = !sortBySize;
-    document.getElementById('sort-toggle').textContent = sortBySize ? 'Sort: Veličina ↓' : 'Sort: Vrijeme ↓';
+    document.getElementById('sort-toggle').textContent = sortBySize ? 'Sort: Veličina ↑' : 'Sort: Vrijeme ↓';
     renderAdmin();
   });
   document.getElementById('seated-toggle').addEventListener('click', () => {

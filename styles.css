@@ -236,7 +236,7 @@ html, body {
 }
 
 .guest-header h1 {
-  font-size: 38px;
+  font-size: 44px;
   font-weight: 900;
   text-transform: uppercase;
   color: #ffffff;
@@ -251,11 +251,11 @@ html, body {
   text-shadow: 0 0 30px rgba(56,189,248,0.8), 0 0 60px rgba(14,165,233,0.4);
 }
 .guest-header p {
-  font-size: 14px;
+  font-size: 18px;
   color: rgba(186,230,253,0.92);
   margin-top: 10px;
   font-weight: 600;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
@@ -289,13 +289,13 @@ html, body {
   flex-shrink: 0;
 }
 .queue-status-bar-text {
-  font-size: 0.84rem;
+  font-size: 1.1rem;
   color: rgba(186,230,253,0.85);
   font-weight: 600;
   letter-spacing: 0.04em;
 }
 .queue-status-bar-count {
-  font-size: 0.95rem;
+  font-size: 1.3rem;
   font-weight: 900;
   color: #ffffff;
 }
@@ -346,15 +346,15 @@ html, body {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 11px;
+  font-size: 16px;
   font-weight: 800;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--sky-muted);
   margin-bottom: 8px;
 }
-.label-icon { font-size: 13px; opacity: 0.8; }
-.required-dot { color: var(--sky); font-size: 14px; line-height: 1; }
+.label-icon { font-size: 18px; opacity: 0.8; }
+.required-dot { color: var(--sky); font-size: 18px; line-height: 1; }
 
 .input-wrap {
   position: relative;
@@ -375,9 +375,9 @@ html, body {
   background: rgba(255,255,255,0.04);
   border: 1.5px solid var(--ocean-border);
   border-radius: var(--radius-sm);
-  padding: 13px 16px 13px 44px;
+  padding: 14px 16px 14px 44px;
   font-family: 'Nunito', sans-serif;
-  font-size: 15px;
+  font-size: 19px;
   font-weight: 600;
   color: var(--white);
   outline: none;
@@ -399,7 +399,7 @@ html, body {
 .input-wrap .input-prefix { z-index: 2; }
 
 .optional-label {
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--white-30);
   margin-left: 2px;
@@ -489,14 +489,14 @@ html, body {
   gap: 10px;
 }
 .split-label {
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 800;
   color: var(--white);
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
 .split-row .stepper-value {
-  font-size: 32px;
+  font-size: 40px;
   font-weight: 900;
   min-width: 40px;
   text-align: center;
@@ -517,7 +517,7 @@ html, body {
   color: var(--sky);
 }
 .split-total {
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 600;
   color: var(--white-50);
   text-align: center;
@@ -526,7 +526,7 @@ html, body {
 }
 .split-total strong {
   color: var(--white);
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 900;
 }
 
@@ -563,12 +563,12 @@ html, body {
   border-radius: var(--radius-sm);
   padding: 11px 14px;
   margin-bottom: 18px;
-  font-size: 13px;
+  font-size: 17px;
   color: var(--sky-faint);
   font-weight: 500;
   line-height: 1.4;
 }
-.contact-note .note-icon { font-size: 15px; flex-shrink: 0; }
+.contact-note .note-icon { font-size: 19px; flex-shrink: 0; }
 
 /* ─── SUBMIT BUTTON ─────────────────────────────── */
 .submit-btn {
@@ -580,7 +580,7 @@ html, body {
   border-radius: var(--radius-md);
   padding: 16px;
   font-family: 'Nunito', sans-serif;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 800;
   color: var(--white);
   cursor: pointer;
@@ -607,7 +607,7 @@ html, body {
 .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
 .error-msg {
-  font-size: 12px;
+  font-size: 14px;
   color: #f87171;
   margin-top: 7px;
   font-weight: 600;
@@ -677,7 +677,7 @@ html, body {
   filter: drop-shadow(0 0 8px rgba(56,189,248,0.55));
 }
 .conf-hello {
-  font-size: 24px;
+  font-size: 32px;
   font-weight: 900;
   background: linear-gradient(135deg, #ffffff 0%, #bae6fd 55%, #38bdf8 100%);
   -webkit-background-clip: text;
@@ -687,7 +687,7 @@ html, body {
   margin-bottom: 6px;
 }
 .conf-party-label {
-  font-size: 12px;
+  font-size: 16px;
   color: rgba(186,230,253,0.6);
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -705,12 +705,12 @@ html, body {
   box-shadow: 0 0 20px rgba(56,189,248,0.07) inset;
 }
 .conf-pos-hash {
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 900;
   color: rgba(56,189,248,0.55);
 }
 .conf-pos-num {
-  font-size: 28px;
+  font-size: 40px;
   font-weight: 900;
   line-height: 1;
   background: linear-gradient(135deg, #bae6fd, #38bdf8);
@@ -719,7 +719,7 @@ html, body {
   background-clip: text;
 }
 .conf-pos-label {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -737,7 +737,7 @@ html, body {
   margin-bottom: 16px;
 }
 .conf-info-title {
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.15em;
@@ -774,18 +774,18 @@ html, body {
 .conf-icon-wa    svg { stroke: #4ade80; }
 .conf-icon-email svg { stroke: #38bdf8; }
 .conf-info-val {
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 700;
   color: #f0f9ff;
 }
 .conf-info-muted {
-  font-size: 13px;
+  font-size: 15px;
   color: rgba(255,255,255,0.4);
   font-style: italic;
 }
 
 .conf-message {
-  font-size: 13px;
+  font-size: 17px;
   color: rgba(186,230,253,0.65);
   font-weight: 500;
   line-height: 1.75;
@@ -801,9 +801,9 @@ html, body {
 }
 .accept-btn, .reject-btn {
   border-radius: var(--radius-md);
-  padding: 15px 12px;
+  padding: 18px 12px;
   font-family: 'Nunito', sans-serif;
-  font-size: 15px;
+  font-size: 19px;
   font-weight: 800;
   cursor: pointer;
   border: none;
@@ -844,7 +844,7 @@ html, body {
 .reject-btn:active { transform: translateY(0); }
 .reject-btn-inner { display: flex; flex-direction: column; align-items: center; gap: 2px; }
 .reject-countdown {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
   opacity: 0.65;
   letter-spacing: 0.03em;
@@ -876,7 +876,7 @@ html, body {
   border-radius: 20px;
   padding: 6px 14px;
   font-family: 'Nunito', sans-serif;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   color: var(--white-50);
   cursor: pointer;
@@ -1425,14 +1425,14 @@ html, body {
 }
 .mode-btn.active .mode-btn-icon { stroke: rgba(255,255,255,0.9); }
 .mode-btn-title {
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 900;
   color: var(--white);
   letter-spacing: -0.2px;
   line-height: 1.1;
 }
 .mode-btn-sub {
-  font-size: 11px;
+  font-size: 15px;
   font-weight: 600;
   color: var(--white-50);
   letter-spacing: 0.02em;
