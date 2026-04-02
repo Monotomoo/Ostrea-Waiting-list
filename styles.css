@@ -1171,6 +1171,21 @@ html, body {
   font-weight: 600;
   color: var(--white-70);
 }
+.contact-item.copyable {
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: background 0.15s;
+  font-size: 28px;
+}
+.contact-item.copyable:hover { background: rgba(255,255,255,0.08); }
+.contact-item.copyable:active { background: rgba(56,189,248,0.15); }
+.contact-item .copied-tag {
+  font-size: 11px;
+  color: #4ade80;
+  font-weight: 700;
+  margin-left: 4px;
+}
 .ci-icon { font-size: 13px; }
 
 .time-meta {

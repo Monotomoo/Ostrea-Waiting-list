@@ -642,9 +642,9 @@ function partyChipText(entry) {
 
 function buildContactHtml(entry) {
   let html = '';
-  if (entry.phone)    html += `<div class="contact-item"><span class="ci-icon">📞</span>${esc(entry.phone)}</div>`;
-  if (entry.whatsapp) html += `<div class="contact-item"><span class="ci-icon">💬</span>${esc(entry.whatsapp)}</div>`;
-  if (entry.email)    html += `<div class="contact-item"><span class="ci-icon">✉️</span>${esc(entry.email)}</div>`;
+  if (entry.phone)    html += `<div class="contact-item copyable" data-copy="${esc(entry.phone)}"><span class="ci-icon">📞</span>${esc(entry.phone)}</div>`;
+  if (entry.whatsapp) html += `<div class="contact-item copyable" data-copy="${esc(entry.whatsapp)}"><span class="ci-icon">💬</span>${esc(entry.whatsapp)}</div>`;
+  if (entry.email)    html += `<div class="contact-item copyable" data-copy="${esc(entry.email)}"><span class="ci-icon">✉️</span>${esc(entry.email)}</div>`;
   return html;
 }
 
@@ -693,8 +693,6 @@ function renderAdmin() {
           </div>
         </div>
         <div class="card-actions">
-          ${entry.status === 'waiting'
-            ? `<button class="action-btn btn-notify" data-action="notify" data-id="${entry.id}">Obavijesti</button>` : ''}
           ${entry.status !== 'seated'
             ? `<button class="action-btn btn-seat" data-action="seat" data-id="${entry.id}">Sjedi</button>` : ''}
           <button class="action-btn btn-remove" data-action="remove" data-id="${entry.id}">Ukloni</button>
@@ -876,16 +874,29 @@ function initAdminView() {
     if (tab) switchAdminTab(tab.dataset.atab);
   });
   document.querySelector('.admin-body').addEventListener('click', e => {
+    const copyEl = e.target.closest('.copyable[data-copy]');
+    if (copyEl) {
+      navigator.clipboard.writeText(copyEl.dataset.copy);
+      const existing = copyEl.querySelector('.copied-tag');
+      if (!existing) {
+        const tag = document.createElement('span');
+        tag.className = 'copied-tag';
+        tag.textContent = '✓';
+        copyEl.appendChild(tag);
+        setTimeout(() => tag.remove(), 1500);
+      }
+      return;
+    }
     const btn = e.target.closest('[data-action]');
     if (!btn) return;
     const { action, id } = btn.dataset;
     if (action === 'notify')    updateStatus(id, 'notified');
     if (action === 'seat')      updateStatus(id, 'seated');
-    if (action === 'remove')    removeGuest(id);
+    if (action === 'remove')    { if (confirm('Jeste li sigurni da želite ukloniti gosta?')) removeGuest(id); }
     if (action === 'bconfirm')  updateBookingStatus(id, 'bconfirmed');
     if (action === 'bcomplete') updateBookingStatus(id, 'completed');
     if (action === 'bcancel')   updateBookingStatus(id, 'cancelled');
-    if (action === 'bremove')   removeBooking(id);
+    if (action === 'bremove')   { if (confirm('Jeste li sigurni da želite ukloniti rezervaciju?')) removeBooking(id); }
   });
 }
 
