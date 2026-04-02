@@ -892,7 +892,7 @@ function initAdminView() {
 // ═══════════════════════════════════════════════════
 //  ADMIN PIN
 // ═══════════════════════════════════════════════════
-const ADMIN_PIN = '123456'; // Change this before deploying
+const ADMIN_PIN = '123321';
 
 function isAdminAuthed() {
   return sessionStorage.getItem('adminAuth') === '1';
