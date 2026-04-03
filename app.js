@@ -29,6 +29,9 @@ async function addGuest(data) {
 function updateStatus(id, status) {
   return db.collection('waitlist').doc(id).update({ status });
 }
+function updateGuestNote(id, note) {
+  return db.collection('waitlist').doc(id).update({ note });
+}
 function removeGuest(id) {
   return db.collection('waitlist').doc(id).delete();
 }
@@ -686,6 +689,10 @@ function renderAdmin() {
             <span class="status-badge ${entry.status}">${statusLabel(entry.status)}</span>
           </div>
           <div class="card-meta">${buildContactHtml(entry)}</div>
+          <div class="card-note-row">
+            <span class="note-icon-sm">📝</span>
+            <input class="card-note-input" type="text" data-note-id="${entry.id}" maxlength="40" placeholder="Dodaj bilješku…" value="${esc(entry.note || '')}" />
+          </div>
           <div class="time-meta">
             <div class="time-item"><span>Dodano</span>${formatTime(entry.timestamp)}</div>
             <div class="time-item"><span>Prije</span>${ago}m</div>
@@ -872,6 +879,10 @@ function initAdminView() {
   document.querySelector('.admin-section-tabs').addEventListener('click', e => {
     const tab = e.target.closest('[data-atab]');
     if (tab) switchAdminTab(tab.dataset.atab);
+  });
+  document.querySelector('.admin-body').addEventListener('change', e => {
+    const noteInput = e.target.closest('.card-note-input');
+    if (noteInput) updateGuestNote(noteInput.dataset.noteId, noteInput.value.trim());
   });
   document.querySelector('.admin-body').addEventListener('click', e => {
     const copyEl = e.target.closest('.copyable[data-copy]');

@@ -1188,6 +1188,32 @@ html, body {
 }
 .ci-icon { font-size: 13px; }
 
+/* ─── ADMIN CARD NOTES ─────────────────────────── */
+.card-note-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+.note-icon-sm { font-size: 12px; opacity: 0.5; flex-shrink: 0; }
+.card-note-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 1px dashed var(--white-15);
+  color: var(--white-70);
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  font-style: italic;
+  padding: 4px 2px;
+  outline: none;
+  transition: border-color 0.2s;
+  max-width: 260px;
+}
+.card-note-input::placeholder { color: var(--white-30); font-style: italic; }
+.card-note-input:focus { border-bottom-color: var(--sky); color: var(--white); }
+
 .time-meta {
   display: flex;
   align-items: center;
