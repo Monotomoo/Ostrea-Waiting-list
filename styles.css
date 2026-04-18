@@ -1006,6 +1006,26 @@ html, body {
   color: var(--white);
   border-color: var(--ocean-border2);
 }
+.export-shift-btn {
+  background: rgba(56,189,248,0.12);
+  border: 1px solid rgba(56,189,248,0.35);
+  border-radius: var(--radius-sm);
+  padding: 7px 14px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: #7dd3fc;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.export-shift-btn:hover {
+  background: rgba(56,189,248,0.22);
+  color: #e0f2fe;
+  border-color: rgba(56,189,248,0.5);
+}
+.export-shift-btn:active { transform: translateY(1px); }
 
 .admin-body {
   padding: 28px 24px;
@@ -1362,6 +1382,7 @@ html, body {
   .admin-header-center { display: none; }
   .live-clock { font-size: 12px; padding: 5px 10px; }
   .guest-link { padding: 5px 10px; font-size: 10px; }
+  .export-shift-btn { padding: 5px 10px; font-size: 10px; }
 
   .admin-body { padding: 14px 12px; }
 

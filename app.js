@@ -76,6 +76,321 @@ function clearPastBookings() {
 }
 
 // ═══════════════════════════════════════════════════
+//  SHIFT EXPORT (XLSX)
+// ═══════════════════════════════════════════════════
+const WAITLIST_STATUS_HR = {
+  waiting:  'Čeka',
+  notified: 'Obaviješten',
+  seated:   'Sjeo'
+};
+const BOOKING_STATUS_HR = {
+  pending:    'Na čekanju',
+  bconfirmed: 'Potvrđeno',
+  completed:  'Završeno',
+  cancelled:  'Otkazano'
+};
+
+function startOfTodayMs() {
+  const d = new Date(); d.setHours(0, 0, 0, 0); return d.getTime();
+}
+function endOfTodayMs() { return startOfTodayMs() + 24 * 60 * 60 * 1000; }
+function fmtClock(ms) {
+  return new Date(ms).toLocaleTimeString('hr-HR', { hour: '2-digit', minute: '2-digit' });
+}
+
+// ── Excel styling presets ──────────────────────────────
+const BORDER_THIN  = { style: 'thin', color: { rgb: 'DDE7F1' } };
+const BORDER_MED   = { style: 'thin', color: { rgb: '9EC7E8' } };
+
+const STYLE_TITLE = {
+  font: { name: 'Calibri', bold: true, sz: 18, color: { rgb: 'FFFFFF' } },
+  fill: { fgColor: { rgb: '0B3F6F' } },
+  alignment: { horizontal: 'center', vertical: 'center' }
+};
+const STYLE_SUBTITLE = {
+  font: { name: 'Calibri', italic: true, sz: 10, color: { rgb: 'E0F2FE' } },
+  fill: { fgColor: { rgb: '0B3F6F' } },
+  alignment: { horizontal: 'center', vertical: 'center' }
+};
+const STYLE_HEADER = {
+  font: { name: 'Calibri', bold: true, sz: 11, color: { rgb: 'FFFFFF' } },
+  fill: { fgColor: { rgb: '1E6FB0' } },
+  alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
+  border: { top: BORDER_MED, bottom: BORDER_MED, left: BORDER_MED, right: BORDER_MED }
+};
+const STYLE_SECTION = {
+  font: { name: 'Calibri', bold: true, sz: 11, color: { rgb: '0B3F6F' } },
+  fill: { fgColor: { rgb: 'DBEAFE' } },
+  alignment: { horizontal: 'left', vertical: 'center' }
+};
+const STYLE_LABEL = {
+  font: { name: 'Calibri', bold: true, sz: 11, color: { rgb: '1F2937' } },
+  alignment: { horizontal: 'left', vertical: 'center' }
+};
+const STYLE_VALUE = {
+  font: { name: 'Calibri', sz: 11, color: { rgb: '1F2937' } },
+  alignment: { horizontal: 'left', vertical: 'center' }
+};
+const STYLE_DATA_BASE = {
+  font: { name: 'Calibri', sz: 10, color: { rgb: '1F2937' } },
+  alignment: { vertical: 'center', wrapText: true },
+  border: { top: BORDER_THIN, bottom: BORDER_THIN, left: BORDER_THIN, right: BORDER_THIN }
+};
+const STYLE_DATA_ALT = {
+  ...STYLE_DATA_BASE,
+  fill: { fgColor: { rgb: 'F4F8FB' } }
+};
+const STATUS_COLORS = {
+  'Čeka':        { rgb: 'FEF3C7' },
+  'Obaviješten': { rgb: 'DBEAFE' },
+  'Sjeo':        { rgb: 'D1FAE5' },
+  'Na čekanju':  { rgb: 'FEF3C7' },
+  'Potvrđeno':   { rgb: 'D1FAE5' },
+  'Završeno':    { rgb: 'E5E7EB' },
+  'Otkazano':    { rgb: 'FECACA' }
+};
+
+function cellAddr(r, c) { return XLSX.utils.encode_cell({ r, c }); }
+function setCell(ws, r, c, value, style) {
+  const addr = cellAddr(r, c);
+  const t = typeof value === 'number' ? 'n' : 's';
+  ws[addr] = { t, v: value ?? '' };
+  if (style) ws[addr].s = style;
+}
+function expandRange(ws, lastRow, lastCol) {
+  ws['!ref'] = XLSX.utils.encode_range(
+    { s: { r: 0, c: 0 }, e: { r: lastRow, c: lastCol } }
+  );
+}
+
+function buildTableSheet(titleText, headers, dataRows, statusColIdx, colWidths) {
+  const ws = {};
+  const lastCol = headers.length - 1;
+
+  // Row 0: merged title
+  setCell(ws, 0, 0, titleText, STYLE_TITLE);
+  for (let c = 1; c <= lastCol; c++) setCell(ws, 0, c, '', STYLE_TITLE);
+
+  // Row 1: merged subtitle (generated timestamp)
+  const subtitle = `Generirano: ${new Date().toLocaleString('hr-HR')}`;
+  setCell(ws, 1, 0, subtitle, STYLE_SUBTITLE);
+  for (let c = 1; c <= lastCol; c++) setCell(ws, 1, c, '', STYLE_SUBTITLE);
+
+  // Row 2: header
+  headers.forEach((h, c) => setCell(ws, 2, c, h, STYLE_HEADER));
+
+  // Data rows (start at r=3)
+  dataRows.forEach((row, i) => {
+    const r = 3 + i;
+    const baseStyle = i % 2 === 0 ? STYLE_DATA_BASE : STYLE_DATA_ALT;
+    row.forEach((val, c) => {
+      let style = baseStyle;
+      if (c === statusColIdx && STATUS_COLORS[val]) {
+        style = {
+          ...baseStyle,
+          fill: { fgColor: STATUS_COLORS[val] },
+          font: { ...baseStyle.font, bold: true },
+          alignment: { ...baseStyle.alignment, horizontal: 'center' }
+        };
+      }
+      setCell(ws, r, c, val, style);
+    });
+  });
+
+  const lastRow = 2 + Math.max(dataRows.length, 1);
+  expandRange(ws, lastRow, lastCol);
+
+  ws['!merges'] = [
+    { s: { r: 0, c: 0 }, e: { r: 0, c: lastCol } },
+    { s: { r: 1, c: 0 }, e: { r: 1, c: lastCol } }
+  ];
+  ws['!cols'] = colWidths.map(wch => ({ wch }));
+  ws['!rows'] = [{ hpt: 28 }, { hpt: 18 }, { hpt: 24 }];
+  ws['!freeze'] = { xSplit: 0, ySplit: 3 };
+  ws['!views'] = [{ state: 'frozen', ySplit: 3 }];
+
+  return ws;
+}
+
+function buildWaitlistSheet(entries) {
+  const headers = [
+    'Vrijeme','Ime','Odrasli','Djeca','Ukupno',
+    'Telefon','WhatsApp','Email','Status','Bilješka'
+  ];
+  const colWidths = [10, 22, 8, 7, 9, 16, 16, 26, 14, 32];
+  const dataRows = entries
+    .slice()
+    .sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0))
+    .map(e => [
+      e.timestamp ? fmtClock(e.timestamp) : '',
+      e.name || '',
+      e.adults ?? 0,
+      e.kids ?? 0,
+      e.partySize ?? 0,
+      e.phone || '',
+      e.whatsapp || '',
+      e.email || '',
+      WAITLIST_STATUS_HR[e.status] || e.status || '',
+      e.note || ''
+    ]);
+  return buildTableSheet('Čekaonica — popis gostiju', headers, dataRows, 8, colWidths);
+}
+
+function buildBookingsSheet(entries) {
+  const headers = [
+    'Datum','Vrijeme','Ime','Odrasli','Djeca','Ukupno',
+    'Telefon','WhatsApp','Email','Status','Bilješka'
+  ];
+  const colWidths = [12, 14, 22, 8, 7, 9, 16, 16, 26, 14, 32];
+  const dataRows = entries
+    .slice()
+    .sort((a, b) =>
+      (a.date || '').localeCompare(b.date || '') ||
+      (a.time || '').localeCompare(b.time || '')
+    )
+    .map(b => [
+      b.date || '',
+      b.timeLabel || b.time || '',
+      b.name || '',
+      b.adults ?? 0,
+      b.kids ?? 0,
+      b.partySize ?? 0,
+      b.phone || '',
+      b.whatsapp || '',
+      b.email || '',
+      BOOKING_STATUS_HR[b.status] || b.status || '',
+      b.notes || ''
+    ]);
+  return buildTableSheet('Rezervacije', headers, dataRows, 9, colWidths);
+}
+
+function buildSummarySheet(dateISO, waitlist, bookingsIncluded) {
+  const bookingsToday    = bookingsIncluded.filter(b => b.date === dateISO);
+  const bookingsUpcoming = bookingsIncluded.filter(b => b.date > dateISO);
+
+  const wlTotal    = waitlist.length;
+  const wlGuests   = waitlist.reduce((s, e) => s + (e.partySize || 0), 0);
+  const wlWaiting  = waitlist.filter(e => e.status === 'waiting').length;
+  const wlNotified = waitlist.filter(e => e.status === 'notified').length;
+  const wlSeated   = waitlist.filter(e => e.status === 'seated').length;
+
+  const bkTotal     = bookingsToday.length;
+  const bkGuests    = bookingsToday.reduce((s, b) => s + (b.partySize || 0), 0);
+  const bkPending   = bookingsToday.filter(b => b.status === 'pending').length;
+  const bkConfirmed = bookingsToday.filter(b => b.status === 'bconfirmed').length;
+  const bkCompleted = bookingsToday.filter(b => b.status === 'completed').length;
+  const bkCancelled = bookingsToday.filter(b => b.status === 'cancelled').length;
+
+  const upcomingTotal  = bookingsUpcoming.length;
+  const upcomingGuests = bookingsUpcoming.reduce((s, b) => s + (b.partySize || 0), 0);
+
+  const sizes = [...waitlist, ...bookingsToday]
+    .map(x => x.partySize || 0)
+    .filter(n => n > 0);
+  const avgParty = sizes.length ? sizes.reduce((a, b) => a + b, 0) / sizes.length : 0;
+
+  const hourCounts = new Array(24).fill(0);
+  waitlist.forEach(e => {
+    if (typeof e.timestamp === 'number') hourCounts[new Date(e.timestamp).getHours()] += 1;
+  });
+  bookingsToday.forEach(b => {
+    const h = parseInt((b.time || '').slice(0, 2), 10);
+    if (!isNaN(h)) hourCounts[h] += 1;
+  });
+  const peak = hourCounts.reduce(
+    (best, c, h) => (c > best.c ? { h, c } : best),
+    { h: -1, c: 0 }
+  );
+  const peakLabel = peak.c > 0
+    ? `${String(peak.h).padStart(2, '0')}:00 (${peak.c})`
+    : '—';
+
+  const sections = [
+    { title: 'Čekaonica', items: [
+      ['Ukupno unosa', wlTotal],
+      ['Ukupno gostiju', wlGuests],
+      ['Čeka', wlWaiting],
+      ['Obaviješten', wlNotified],
+      ['Sjeo', wlSeated]
+    ]},
+    { title: 'Rezervacije (danas)', items: [
+      ['Ukupno rezervacija', bkTotal],
+      ['Ukupno rezerviranih gostiju', bkGuests],
+      ['Na čekanju', bkPending],
+      ['Potvrđeno', bkConfirmed],
+      ['Završeno', bkCompleted],
+      ['Otkazano', bkCancelled]
+    ]},
+    { title: 'Nadolazeće rezervacije', items: [
+      ['Ukupno rezervacija', upcomingTotal],
+      ['Ukupno rezerviranih gostiju', upcomingGuests]
+    ]},
+    { title: 'Ukupno', items: [
+      ['Prosječna veličina grupe', avgParty ? Number(avgParty.toFixed(2)) : 0],
+      ['Najaktivniji sat', peakLabel]
+    ]}
+  ];
+
+  const ws = {};
+  let r = 0;
+
+  // Title row (merged A:B)
+  setCell(ws, r, 0, 'Sažetak smjene', STYLE_TITLE);
+  setCell(ws, r, 1, '', STYLE_TITLE);
+  r++;
+
+  // Date / generated info
+  setCell(ws, r, 0, 'Datum', STYLE_LABEL);
+  setCell(ws, r, 1, dateISO, STYLE_VALUE);
+  r++;
+  setCell(ws, r, 0, 'Generirano', STYLE_LABEL);
+  setCell(ws, r, 1, new Date().toLocaleString('hr-HR'), STYLE_VALUE);
+  r++;
+  r++; // blank spacer
+
+  const merges = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 1 } }];
+
+  sections.forEach(sec => {
+    setCell(ws, r, 0, sec.title, STYLE_SECTION);
+    setCell(ws, r, 1, '', STYLE_SECTION);
+    merges.push({ s: { r, c: 0 }, e: { r, c: 1 } });
+    r++;
+    sec.items.forEach(([label, value]) => {
+      setCell(ws, r, 0, label, STYLE_LABEL);
+      setCell(ws, r, 1, value, STYLE_VALUE);
+      r++;
+    });
+    r++; // spacer
+  });
+
+  expandRange(ws, r - 1, 1);
+  ws['!merges'] = merges;
+  ws['!cols'] = [{ wch: 34 }, { wch: 26 }];
+  ws['!rows'] = [{ hpt: 32 }];
+  return ws;
+}
+
+function exportShift() {
+  if (typeof XLSX === 'undefined') {
+    alert('Izvoz nije dostupan — provjerite internetsku vezu.');
+    return;
+  }
+  const today = todayISO();
+  const start = startOfTodayMs(), end = endOfTodayMs();
+
+  const todaysWaitlist = queue.filter(e =>
+    typeof e.timestamp === 'number' && e.timestamp >= start && e.timestamp < end
+  );
+  const includedBookings = bookings.slice();
+
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, buildSummarySheet(today, todaysWaitlist, includedBookings), 'Sažetak');
+  XLSX.utils.book_append_sheet(wb, buildWaitlistSheet(todaysWaitlist), 'Čekaonica');
+  XLSX.utils.book_append_sheet(wb, buildBookingsSheet(includedBookings), 'Rezervacije');
+  XLSX.writeFile(wb, `smjena-${today}.xlsx`);
+}
+
+// ═══════════════════════════════════════════════════
 //  FIRESTORE REAL-TIME LISTENERS
 // ═══════════════════════════════════════════════════
 function initFirestore() {
@@ -871,6 +1186,7 @@ function initAdminView() {
     renderAdmin();
   });
   document.getElementById('clear-seated-btn').addEventListener('click', () => clearSeated());
+  document.getElementById('export-shift-btn').addEventListener('click', exportShift);
   document.getElementById('past-bookings-toggle').addEventListener('click', () => {
     pastBookingsOpen = !pastBookingsOpen;
     renderBookingsPanel();

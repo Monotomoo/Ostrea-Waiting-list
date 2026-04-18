@@ -335,6 +335,7 @@
       </div>
       <div class="admin-header-right">
         <div class="live-clock" id="live-clock">--:--:--</div>
+        <button class="export-shift-btn" id="export-shift-btn" type="button">⬇ Izvoz</button>
         <a href="#guest" class="guest-link">← Gost</a>
       </div>
     </header>
@@ -424,6 +425,8 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
   <script src="firebase-config.js"></script>
+  <!-- SheetJS fork with cell styling support (XLSX export) -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
